@@ -1,13 +1,20 @@
 package com.orange.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable{
 
 
@@ -19,6 +26,10 @@ public class User implements Serializable{
 	private String email;
 	private String cpf;
 	private String data_nascimento;
+	
+	@ManyToMany
+	@JoinTable(name = "tb_user_vehicle", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+	private List<Vehicle> vehicles = new ArrayList<>();
 
 	public User() {
 	}
@@ -67,8 +78,11 @@ public class User implements Serializable{
 	public Long getId() {
 		return id;
 	}
-
 	
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
 
 	@Override
 	public int hashCode() {
